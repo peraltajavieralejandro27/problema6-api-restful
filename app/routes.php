@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use App\Application\Actions\User\FindUserAction;
 use App\Application\Actions\User\ListUsersAction;
 use App\Application\Actions\User\UserCreateAction;
 use App\Application\Actions\User\ViewUserAction;
@@ -20,10 +21,9 @@ return function (App $app) {
         return $response;
     });
 
-
     $app->group('/users', function (Group $group) {
         $group->get('', ListUsersAction::class);
-        $group->get('/{id}', ViewUserAction::class);
+        $group->get('/{id}', FindUserAction::class);
         $group->post('',UserCreateAction::class);
     });
 };
