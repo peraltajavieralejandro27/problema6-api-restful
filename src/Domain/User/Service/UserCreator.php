@@ -6,7 +6,7 @@ namespace App\Domain\User\Service;
 
 use App\Domain\User\Repository\UserCreatorRepository;
 use Cassandra\Exception\ValidationException;
-use Symfony\Component\Config\Definition\Exception\Exception;
+use Exception;
 
 class UserCreator
 {
