@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-use App\Application\Actions\User\FindUserAction;
-use App\Application\Actions\User\ListUsersAction;
-use App\Application\Actions\User\UserCreateAction;
-use App\Application\Actions\User\ViewUserAction;
+use App\Application\Actions\User\DeleteAction;
+use App\Application\Actions\User\FindAction;
+use App\Application\Actions\User\ListAction;
+use App\Application\Actions\User\CreateAction;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
@@ -22,8 +22,9 @@ return function (App $app) {
     });
 
     $app->group('/users', function (Group $group) {
-        $group->get('', ListUsersAction::class);
-        $group->get('/{id}', FindUserAction::class);
-        $group->post('',UserCreateAction::class);
+        $group->post('',CreateAction::class);
+        $group->get('', ListAction::class);
+        $group->get('/{id}', FindAction::class);
+        $group->delete('/{id}', DeleteAction::class);
     });
 };

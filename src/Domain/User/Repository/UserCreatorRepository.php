@@ -5,6 +5,7 @@ namespace App\Domain\User\Repository;
 
 use App\Domain\Repository;
 use Exception;
+use PDO;
 
 class UserCreatorRepository extends Repository
 {
@@ -17,7 +18,7 @@ class UserCreatorRepository extends Repository
      * @return int The new ID
      * @throws Exception
      */
-    public function insertUser(array $user): int
+    public function insertUser(array $user)
     {
         $row = [
             'email'    => $user['email'],
@@ -26,7 +27,7 @@ class UserCreatorRepository extends Repository
             'password' => $user['password'],
         ];
 
-        if($this->validateUser($user)){
+        if ($this->validateUser($user)) {
             throw new Exception('User exists. ', 500);
         }
 
@@ -36,7 +37,14 @@ class UserCreatorRepository extends Repository
 
         $statement->execute($row);
 
-        return (int)$this->connection->lastInsertId();
+        $sql = "SELECT id,email,name,login FROM `Usuarios` WHERE id = :id";
+        $statement = $this->connection->prepare($sql);
+
+        $statement->execute(['id' => $this->connection->lastInsertId()]);
+
+        $user = $statement->fetch(PDO::FETCH_OBJ);
+
+        return $user;
     }
 
     public function validateUser(array $user): int

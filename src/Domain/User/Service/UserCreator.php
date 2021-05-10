@@ -32,18 +32,17 @@ class UserCreator
      *
      * @return int The new user ID
      */
-    public function createUser(array $data): int
+    public function createUser(array $data)
     {
         // Input validation
         $this->validateNewUser($data);
 
         // Insert user
-        $userId = $this->repository->insertUser($data);
-
+        $user = $this->repository->insertUser($data);
         // Logging here: User created successfully
         //$this->logger->info(sprintf('User created successfully: %s', $userId));
 
-        return $userId;
+        return $user;
     }
 
     /**
